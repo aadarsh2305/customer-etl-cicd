@@ -13,5 +13,5 @@ def test_transform():
     transformed = transform(data)
 
     assert transformed[0]["customer_id"] == 1
-    assert transformed[0]["customer_name"] == "RAHUL"
+    assert transformed[0]["customer_name"] == "WRONG_NAME"
 
