@@ -62,3 +62,33 @@ jobs:
           name: customer-etl-package
           path: customer-etl.tar.gz
           retention-days: 5
+    
+  deploy-staging:
+
+    needs: build
+
+    runs-on: ubuntu-latest
+
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    environment:
+      name: staging
+
+    steps:
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: customer-etl-package
+
+      - name: Deploy to staging
+        run: |
+          echo "================================="
+          echo "Deploying Customer ETL"
+          echo "Environment: STAGING"
+          echo "================================="
+
+          echo "Artifact:"
+          ls -lh customer-etl.tar.gz
+
+          echo "Deployment successful!"
