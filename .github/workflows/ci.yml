@@ -92,3 +92,34 @@ jobs:
           ls -lh customer-etl.tar.gz
 
           echo "Deployment successful!"
+
+
+  deploy-production:
+
+    needs: deploy-staging
+
+    runs-on: ubuntu-latest
+
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    environment:
+      name: production
+
+    steps:
+
+      - name: Download build artifact
+        uses: actions/download-artifact@v5
+        with:
+          name: customer-etl-package
+
+      - name: Deploy to production
+        run: |
+          echo "================================="
+          echo "Deploying Customer ETL"
+          echo "Environment: PRODUCTION"
+          echo "================================="
+
+          echo "Artifact:"
+          ls -lh customer-etl.tar.gz
+
+          echo "Production deployment successful!"
